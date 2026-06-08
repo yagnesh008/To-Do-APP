@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .navbar {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+
+        .logo img {
+            width: 55px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile img {
+            width: 40px;
+            height: 40px;
+            
+        }
+
+        .pok{
+            display: inline-flex;
+            justify-content: space-between;
+        }
+
+        .add2{
+
+            margin-left: auto;
+
+            justify-content: center;
+
+            background: #6c5ce7;
+
+            color: white;
+
+            margin-left: 2px;
+
+            border: none;
+
+            height: 42px;
+            
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-weight: 600;
+        }
+
+        .logout{
+            margin-left: auto;
+
+            background: #6c5ce7;
+            color: white;
+
+            justify-content: space-between;
+            align-items: right;
+
+            border: none;
+
+            height: 42px;
+            padding: 0 20px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-weight: 600;
+        }
+
+        .po-up{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 400px;
+            padding: 25px;
+
+            background: #fff;
+            border-radius: 15px;
+            text-align: center;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+
+            display: none;
+        }
+
+        .po-up h3{
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .yes,
+        .no{
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            margin: 0 5px;
+            transition: 0.3s;
+        }
+
+        .yes{
+            background: #ff4d4d;
+        }
+
+        .yes:hover{
+            background: #e63e3e;
+        }
+
+        .no{
+            background: #6c5ce7;
+        }
+
+        .no:hover{
+            background: #5a4bd1;
+        }
+        .pro{
+            width: 400px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            font-family: Arial, sans-serif;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+        }
+
+        .pro h2{
+            text-align: center;
+            margin-bottom: 20px;
+            color: #6c5ce7;
+        }
+
+        .pro table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .pro th{
+            text-align: left;
+            padding: 12px;
+            width: 35%;
+            color: #555;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pro td{
+            padding: 12px;
+            color: #222;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btns{
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .e,
+        .clo{
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .e{
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .e:hover{
+            background: #5849d1;
+        }
+
+        .clo{
+            background: #e5e7eb;
+            color: #333;
+        }
+
+        .clo:hover{
+            background: #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+       <div class="logo"> <img src="./src/To Do List.jpeg" alt="todo"></div>
+       <div class="pok">
+       <div class="profile"><img src="./src/profile.jpeg" alt="profile">
+            <span class="User"></span>
+    </div>
+       <div class="logout"><button class="add2">Log-out</button></div>
+       </div>
+    </div>
+    <div class="po-up">
+        <h3> Are you sure you want to exit? </h3>
+        <button class="yes">Yes</button>
+        <button class="no">No</button>
+    </div>
+    <div class="pro">
+        <table>
+            <tr>
+                <th>User :</th>
+                <tr><td class="usr"> </td></tr>
+            </tr>
+            <tr>
+                <th>Email :</th>
+                <tr><td class="emil"></td></tr>
+            </tr>
+            <tr>
+                <th>Phone number :</th>
+                <tr><td class="ph"></td></tr>
+            </tr>
+        
+    </table>
+    <div class="btns">
+        <button class="e">Edit</button>
+        <button class="clo">Close</button>
+    </div>
+    </div>
+    <script>
+        const usr = document.querySelector('.usr');
+        const emil = document.querySelector('.emil');
+        const ph = document.querySelector('.ph');
+        const eb = document.querySelector('.e');
+        const cl = document.querySelector('.clo');
+        usr.textContent=localStorage.getItem('user');
+        emil.textContent=localStorage.getItem('email');
+        ph.textContent=localStorage.getItem('ph');
+
+        cl.addEventListener('click',function(){
+            
+            usr.contentEditable=false;
+            emil.contentEditable=false;
+            ph.contentEditable=false;
+
+            localStorage.setItem('user',usr.textContent);
+            localStorage.setItem('email',emil.textContent);
+            localStorage.setItem('ph',ph.textContent);
+
+            window.location.href='indx.html';
+        })
+        eb.addEventListener('click',function(){
+            usr.contentEditable = true;
+            emil.contentEditable = true;
+            ph.contentEditable = true;
+        })
+        document.querySelector('.logout').addEventListener('click',function(){
+            document.querySelector('.po-up').style.display='block';
+        })
+        document.querySelector('.yes').addEventListener('click',function(){
+            window.location.href='index.html';
+        });
+        document.querySelector('.no').addEventListener('click',function(){
+            document.querySelector('.po-up').style.display='none';
+        });
+        
+    </script>
+</body>
+</html>

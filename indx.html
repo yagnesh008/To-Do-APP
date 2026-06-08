@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey : 'qqpzJ8VZcYFuUH6SE',
+            })
+        })();
+    </script>
+</head>
+<body>
+    <div class="navbar">
+       <div class="logo"> <img src="./src/To Do List.jpeg" alt="todo"></div>
+       <div class="pok">
+       <div class="profile"><img src="./src/profile.jpeg" alt="profile">
+        <span class="User"></span>
+    </div>
+       <div class="logout"><button class="add2">Log-out</button></div>
+       </div>
+    </div>
+    <div class="po-up">
+        <h3> Are you sure you want to exit? </h3>
+        <button class="yes">Yes</button>
+        <button class="no">No</button>
+    </div>
+    <div class="liv" >
+        
+
+    <div class="card card1">
+        <div class="icon purple">📋</div>
+        <div class="info">
+            <h4>Total Tasks</h4>
+            <h2 class="count">0</h2>
+            <p>All tasks created</p>
+        </div>
+    </div>
+
+    <div class="card card3">
+        <div class="icon orange">⏰</div>
+        <div class="info">
+            <h4>Pending</h4>
+            <h2 class="count1">0</h2>
+            <p class="cnt">0</p>
+        </div>
+    </div>
+
+    <div class="card card2">
+        <div class="icon green">✅</div>
+        <div class="info">
+            <h4>Completed</h4>
+            <h2 class="count2">0</h2>
+            <p class="cnt1">0</p>
+        </div>
+    </div>
+
+    <div class="card card4">
+        <div class="icon red">📈</div>
+        <div class="info">
+            <h4>High Priority</h4>
+            <h2 class="count3">0</h2>
+            <p class="cnt2">0</p>
+        </div>
+    </div>
+
+</div>
+    </div>
+    <div class="fil">
+        <div class="b1">
+            <select name="filter" class="filter">
+                <option value="All">All</option>
+                <option value="To-do">To-do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Review">Review</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+        <div class="b2">
+            <select name="prio" class="prio">
+                <option value="priority">Priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+        <div class="b4">
+            <input class="srch" type="text" placeholder="Search...">
+        </div>
+        <div class="b5">
+            <button class="add">Add Task</button>
+            
+            <div class="pop-up">
+                <h3>New Task </h3>
+                <form class="fom">
+                    <h4><input type="text" placeholder="Task Name" class="task-name" required></h4>
+                    <h6><input type="text" placeholder="description" class="description" required></h6>
+                    <select name="priority" class="priority">
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <select name="status" class="status">
+                        <option value="To-do">To-do</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Review">Review</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <label for="due-date">Due Date:</label>
+                    <date-picker>
+                        <input type="date" class="due-date" name="due-date">
+                    </date-picker>
+                    <label for="email">Assigni</label>
+                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="email" placeholder="email">
+                    <button type="button" class="sende">Send Email</button>
+                    <button type="button" class="add1">Create</button>
+                    <button type="button" class="close">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="dash">
+        <div class="c1">
+            <h3>To-do <span class="count4">0</span></h3>
+            <div class="task" id="q1">
+                 <ul> </ul>
+            </div>
+        </div>
+        <div class="c2">
+            <h3>In Progress <span class="count6">0</span> </h3>
+            <div class="task" id="q2">
+                    <ul> </ul>
+            </div>
+        </div>
+        <div class="c3">
+            <h3>Review <span class="count5">0</span> </h3>
+            <div class="task" id="q3">
+                    <ul> </ul>
+            </div>
+        </div>
+        <div class="c4">
+            <h3>Completed <span class="count7">0</span> </h3>
+            <div class="task" id="q4">
+                    <ul> </ul>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

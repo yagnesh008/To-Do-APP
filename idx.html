@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body{
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dfg{
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 400px;
+        }
+
+#fomm{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#fomm span{
+    font-weight: 600;
+    color: #333;
+}
+
+#fomm input{
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+#fomm input:focus{
+    border-color: #667eea;
+    box-shadow: 0 0 5px rgba(102,126,234,0.4);
+}
+
+.sas{
+    margin-top: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #667eea;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sas:hover{
+    background: #5563d6;
+    transform: translateY(-2px);
+}
+
+.sas:active{
+    transform: translateY(0);
+}
+    </style>
+</head>
+<body>
+    <div class="dfg">
+        <form id="fomm">
+            <span>UserName :</span> <input type="text" placeholder="Username" id="e0" required><br>
+            <span>Email :</span> <input type="email" placeholder="Email" class="email" id="e1" required><br>
+            <span>password :</span> <input type="password" placeholder="password" class="pwd" id="e2" required><br>
+            <span>Phone-Number :</span> <input type="number" placeholder="Phone-Number" id="e3"  required><br>
+            <button type="button" class="sas">Save</button>
+            <h4>I already have an account? <a href="index.html">Log-in</a></h4>
+        </form>
+    </div>
+    <script>
+        const sas1 = document.querySelector('.sas');
+        const asd = document.querySelector('#e1');
+        const assq = document.querySelector('#e2');
+        const aas = document.querySelector('#e0');
+        const asdd = document.querySelector('#e3');
+
+        function saveData() {
+            localStorage.setItem('email', asd.value);
+            localStorage.setItem('pwd', assq.value);
+            localStorage.setItem('user',aas.value);
+            localStorage.setItem('ph',asdd.value);
+        }
+
+        asd.addEventListener('input', saveData);
+        assq.addEventListener('input', saveData);
+        asdd.addEventListener('input',saveData);
+        assq.addEventListener('input',saveData);
+
+
+
+        sas1.addEventListener('click',function(){
+            window.location.href='index.html';
+
+        })
+
+
+    </script>
+</body>
+</html>

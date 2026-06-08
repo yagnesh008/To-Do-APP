@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body{
+            background: #f4f4f4;
+            min-height: 100vh;
+        }
+
+        .h1{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .h1 h2{
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #ccc;
+        }
+
+        .h1 input{
+            width: 100%;
+            height: 45px;
+            padding: 0 12px;
+            margin-bottom: 5px;
+            border: 1px solid #dcdcdc;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .h1 input:focus{
+            border-color: dodgerblue;
+        }
+
+        .h1 button{
+            display: block;
+            margin: 20px auto 0;
+            width: 120px;
+            height: 42px;
+            border: none;
+            border-radius: 22px;
+            background: dodgerblue;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .h1 button:hover{
+            background: #0066cc;
+        }
+
+        .inv{
+            display: none;
+            color: red;
+            font-size: 13px;
+            margin-bottom: 12px;
+            text-align: left;
+            }
+
+        #iny{
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="h1">
+        <h2>To-Do Login</h2>
+        <input type="email" placeholder="E-mail" class="email1">
+        <p class="inv" id="iny1">Invalid Email</p>
+        <input type="password" placeholder="password" class="pwd1">
+        <p class="inv" id="iny2">Invalid password</p>
+        <p class="inv" id="iny">Invalid Credtials</p>
+        <button type="submit" class="btn">Submit</button>
+        <button type="signup" class="btn" id="btn1">Sign-Up</button>
+    </div>
+
+    <script>
+        const em = document.querySelector('.email1');
+        const pwd = document.querySelector('.pwd1');
+        const btn2 = document.querySelector('#btn1');
+        const btn1 = document.querySelector('.btn');
+        btn1.addEventListener('click',function(){
+
+            document.querySelectorAll('.inv').forEach(el => {
+                el.style.display='none';
+            });
+
+            if( em.value === localStorage.getItem('email')){
+                if(  pwd.value === localStorage.getItem('pwd')){
+                    pageRedirect();
+                }else{
+                    document.querySelector('#iny2').style.display = 'block';
+                }
+            }else{
+                if(pwd.value ==="123"){
+                    document.querySelector('#iny1').style.display = 'block';
+                }else{
+                    document.querySelector('#iny').style.display = 'block';
+                }
+            }
+        })
+        function pageRedirect(){
+            window.location.href="indx.html";
+        }
+        btn2.addEventListener('click',function(){
+            window.location.href="idx.html";
+        })
+    </script>
+</body>
+</html>
