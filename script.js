@@ -40,6 +40,7 @@ newtask = () => {
     const status = document.querySelector('.status').value;
     const description = document.querySelector('.description').value;
     const email = document.querySelector('.email').value;
+    
 
     if (taskName && date && priority && status && description && email) {
         const task = {
@@ -69,6 +70,7 @@ newtask = () => {
                 </div>
             </div>
                 `;
+
             if(task.priority === "High"){
                 listItem.classList.add("high-priority");
             }
@@ -80,6 +82,12 @@ newtask = () => {
             }
         listItem.dataset.priority = task.priority;
         listItem.dataset.status = task.status;
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.push({
+            name: task.name
+        });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+
         document.querySelector('.fom').reset();
         if(status === "To-do"){
             const list = document.querySelector('.c1 .task ul');
@@ -103,6 +111,7 @@ newtask = () => {
 };
 add.addEventListener('click', function(){
     document.querySelector('.pop-up').style.display = 'block';
+    dependency();
 });
 add1.addEventListener('click', function(){
     document.querySelector('.pop-up').style.display = 'none';
@@ -112,9 +121,29 @@ close.addEventListener('click', function(){
     document.querySelector('.pop-up').style.display = 'none';
 });
 document.querySelector('.sende').addEventListener('click',function(){
-    sendEmail();
-    
+    sendEmail();  
 })
+
+window.addEventListener('load', () => {
+    localStorage.clear();
+});
+
+function dependency(){
+    const dependencySelect = document.querySelector('.dependency');
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    dependencySelect.innerHTML =
+        '<option value="">Select Dependency Task</option>';
+
+    tasks.forEach(task => {
+        const option = document.createElement("option");
+        option.value = task.name;
+        option.textContent = task.name;
+        dependencySelect.appendChild(option);
+    });
+
+}
+
 
 function sendEmail() {
     const temp = {
@@ -178,6 +207,7 @@ countTasks = () => {
 
     const percentage2 = totalTasks === 0 ? 0 : ((highPriorityCount / totalTasks) * 100).toFixed(1);
     count10.textContent = percentage2 + "% of Task";
+    
 };
 
 

@@ -102,11 +102,13 @@
                     <h4><input type="text" placeholder="Task Name" class="task-name" required></h4>
                     <h6><input type="text" placeholder="description" class="description" required></h6>
                     <select name="priority" class="priority">
+                        <button><selectedcontent></selectedcontent></button>
                         <option value="High">High</option>
                         <option value="Medium">Medium</option>
                         <option value="Low">Low</option>
                     </select>
                     <select name="status" class="status">
+                        
                         <option value="To-do">To-do</option>
                         <option value="In Progress">In Progress</option>
                         <option value="Review">Review</option>
@@ -116,8 +118,11 @@
                     <date-picker>
                         <input type="date" class="due-date" name="due-date">
                     </date-picker>
+                    <label for="dependency">Designation</label>
+                    <select name="Designation" class="dependency" id="der">             
+                    </select>
                     <label for="email">Assigni</label>
-                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="email" placeholder="email">
+                    <input type="email" class="email" placeholder="email">
                     <button type="button" class="sende">Send Email</button>
                     <button type="button" class="add1">Create</button>
                     <button type="button" class="close">Close</button>
