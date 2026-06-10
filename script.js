@@ -50,6 +50,12 @@ newtask = () => {
     const email = document.querySelector('.email').value;
     
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const existingTask = tasks.find(task => task.name.toLowerCase() === taskName.toLowerCase());
+    if (existingTask) {
+        showPopup(`Task name"${taskName}" already exists.`);
+        return;
+    }
+
     if (dependency) {
         const parentTask = tasks.find(
             task => task.name === dependency
@@ -57,10 +63,14 @@ newtask = () => {
         if (parentTask &&Order[status] > Order[parentTask.status]) {
             showPopup(`Cannot create task. Dependency task : "${parentTask.name}" is currently at "${parentTask.status} and current task status is at ${status} ".`);
             return;
+            
         }
     }
 
+
     if (taskName && date && priority && status && description ) {
+        
+
         const task = {
             name: taskName,
             dueDate: date,
@@ -106,7 +116,6 @@ newtask = () => {
         listItem.dataset.status = task.status;
         listItem.dataset.dependency = task.dependency;
 
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.push(task);
         localStorage.setItem('tasks', JSON.stringify(tasks));
         
