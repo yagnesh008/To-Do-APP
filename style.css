@@ -552,13 +552,13 @@ body.popup-open > *:not(.popup) {
 
 .popup {
     position: fixed;
-    inset: 0; /* full screen */
+    inset: 0; 
 
     display: none;
     justify-content: center;
     align-items: center;
 
-    background: rgba(0, 0, 0, 0.3); /* optional overlay */
+    background: rgba(0, 0, 0, 0.3); 
 
     z-index: 1000;
 }
