@@ -52,7 +52,7 @@ newtask = () => {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const existingTask = tasks.find(task => task.name.toLowerCase() === taskName.toLowerCase());
     if (existingTask) {
-        showPopup(`Task name"${taskName}" already exists.`);
+        showPopup(`Task name :"${taskName}" already exists.`);
         return;
     }
 
@@ -61,7 +61,7 @@ newtask = () => {
             task => task.name === dependency
         );
         if (parentTask &&Order[status] > Order[parentTask.status]) {
-            showPopup(`Cannot create task. Dependency task : "${parentTask.name}" is currently at "${parentTask.status} and current task status is at ${status} ".`);
+            showPopup(`Cannot create task. Dependency task : "${parentTask.name}" is currently at "${parentTask.status}" and current task status is at "${status} ".`);
             return;    
         }
     }
