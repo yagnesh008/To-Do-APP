@@ -55,7 +55,7 @@ newtask = () => {
             task => task.name === dependency
         );
         if (parentTask &&Order[status] > Order[parentTask.status]) {
-            showPopup(`Cannot create task. Dependency "${parentTask.name}" is currently "${parentTask.status}".`);
+            showPopup(`Cannot create task. Dependency task : "${parentTask.name}" is currently at "${parentTask.status} and current task status is at ${status} ".`);
             return;
         }
     }
