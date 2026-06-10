@@ -51,15 +51,10 @@ newtask = () => {
     
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     if (dependency) {
-
         const parentTask = tasks.find(
             task => task.name === dependency
         );
-
-        if (
-            parentTask &&
-            statusOrder[status] > statusOrder[parentTask.status]
-        ) {
+        if (parentTask &&statusOrder[status] > statusOrder[parentTask.status]) {
             showPopup(`Cannot create task. Dependency "${parentTask.name}" is currently "${parentTask.status}".`);
             return;
         }
@@ -194,7 +189,7 @@ function sendEmail() {
         })
         .catch((err) => {
             console.error(err);
-            showPopup("Email Not Sent");
+            alert("Email Not Sent");
         });
 }
 
