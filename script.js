@@ -57,9 +57,7 @@ newtask = () => {
     }
 
     if (dependency) {
-        const parentTask = tasks.find(
-            task => task.name === dependency
-        );
+        const parentTask = tasks.find(task => task.name === dependency);
         if (parentTask &&Order[status] > Order[parentTask.status]) {
             showPopup(`Cannot create task. Dependency task : "${parentTask.name}" is currently at "${parentTask.status}" and current task status is at "${status} ".`);
             return;    
@@ -95,9 +93,7 @@ newtask = () => {
                 <span class="date">
                     📅 ${task.dueDate}
                 </span>
-
                 
-
                 </div>
             </div>
                 `;
