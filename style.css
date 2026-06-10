@@ -11,6 +11,10 @@ body{
     color: #222;
 }
 
+body.popup-open > *:not(.popup) {
+    filter: blur(5px);
+    pointer-events: none;
+}
 
 .navbar {
     background: white;
@@ -548,16 +552,15 @@ body{
 
 .popup {
     position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgb(0, 0, 0);
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
+    inset: 0; /* full screen */
+
     display: none;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.3); /* optional overlay */
+
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .popup-content {
@@ -566,6 +569,8 @@ body{
     border-radius: 8px;
     text-align: center;
     min-width: 300px;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .popup-content button {

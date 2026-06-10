@@ -154,9 +154,11 @@ document.querySelector('.sende').addEventListener('click',function(){
 function showPopup(message) {
     document.getElementById("popupMessage").textContent = message;
     document.getElementById("popup").style.display = "flex";
+     document.body.classList.add("popup-open");
 }
 function closePopup() {
     document.getElementById("popup").style.display = "none";
+    document.body.classList.remove("popup-open");
 }
 window.addEventListener('load', () => {
     localStorage.removeItem('tasks');
