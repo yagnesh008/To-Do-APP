@@ -31,7 +31,7 @@ const apply = document.querySelector('.appley');
 const taskCol = document.querySelectorAll('.c1, .c2, .c3, .c4');
 const prf = document.querySelector('.profile');
 
-const statusOrder = {
+const Order = {
     "To-do": 1,
     "In Progress": 2,
     "Review": 3,
@@ -54,7 +54,7 @@ newtask = () => {
         const parentTask = tasks.find(
             task => task.name === dependency
         );
-        if (parentTask &&statusOrder[status] > statusOrder[parentTask.status]) {
+        if (parentTask &&Order[status] > Order[parentTask.status]) {
             showPopup(`Cannot create task. Dependency "${parentTask.name}" is currently "${parentTask.status}".`);
             return;
         }
@@ -325,11 +325,9 @@ taskCol.forEach(column => {
 
                 if (
                     parentTask &&
-                    statusOrder[newStatus] > statusOrder[parentTask.status]
+                    Order[newStatus] > Order[parentTask.status]
                 ) {
-                    showPopup(
-                        `${draggedItem.querySelector('h4').textContent} cannot move ahead of ${parentTask.name}`
-                    );
+                    showPopup(`${draggedItem.querySelector('h4').textContent} cannot move ahead of ${parentTask.name}`);
                     return;
                 }
             }
