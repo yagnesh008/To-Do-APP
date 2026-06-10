@@ -31,25 +31,49 @@ const apply = document.querySelector('.appley');
 const taskCol = document.querySelectorAll('.c1, .c2, .c3, .c4');
 const prf = document.querySelector('.profile');
 
+const statusOrder = {
+    "To-do": 1,
+    "In Progress": 2,
+    "Review": 3,
+    "Completed": 4
+};
+
 
 
 newtask = () => {
     const taskName = document.querySelector('.task-name').value;
     const date = document.querySelector('.due-date').value;
     const priority = document.querySelector('.priority').value;
-    const status = document.querySelector('.status').value;
     const description = document.querySelector('.description').value;
+    const status = document.querySelector('.status').value;
+    const dependency = document.querySelector('.dependency').value;
     const email = document.querySelector('.email').value;
     
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    if (dependency) {
 
-    if (taskName && date && priority && status && description && email) {
+        const parentTask = tasks.find(
+            task => task.name === dependency
+        );
+
+        if (
+            parentTask &&
+            statusOrder[status] > statusOrder[parentTask.status]
+        ) {
+            showPopup(`Cannot create task. Dependency "${parentTask.name}" is currently "${parentTask.status}".`);
+            return;
+        }
+    }
+
+    if (taskName && date && priority && status && description ) {
         const task = {
             name: taskName,
             dueDate: date,
             priority: priority,
             status: status,
             description: description,
-            email: email
+            email: email,
+            dependency: dependency
         };
         const listItem = document.createElement('li');
         listItem.draggable = true;
@@ -57,15 +81,18 @@ newtask = () => {
             <div class="dat1">
             <h4>${task.name}</h4>
             <p>${task.description}</p>
+            <p>Dependency : ${task.dependency || "None"} </p>
 
             <div class="task-footer">
                 <span class="priority-badge ${task.priority.toLowerCase()}">
                     ${task.priority}
                 </span>
-
+                
                 <span class="date">
                     📅 ${task.dueDate}
                 </span>
+
+                
 
                 </div>
             </div>
@@ -82,11 +109,12 @@ newtask = () => {
             }
         listItem.dataset.priority = task.priority;
         listItem.dataset.status = task.status;
+        listItem.dataset.dependency = task.dependency;
+
         let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.push({
-            name: task.name
-        });
+        tasks.push(task);
         localStorage.setItem('tasks', JSON.stringify(tasks));
+        
 
         document.querySelector('.fom').reset();
         if(status === "To-do"){
@@ -106,7 +134,7 @@ newtask = () => {
             list.appendChild(listItem);
         }
     } else {
-        alert("Please fill in all fields.");
+            showPopup("Please fill in all fields.");
     }
 };
 add.addEventListener('click', function(){
@@ -124,8 +152,15 @@ document.querySelector('.sende').addEventListener('click',function(){
     sendEmail();  
 })
 
+function showPopup(message) {
+    document.getElementById("popupMessage").textContent = message;
+    document.getElementById("popup").style.display = "flex";
+}
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
 window.addEventListener('load', () => {
-    localStorage.clear();
+    localStorage.removeItem('tasks');
 });
 
 function dependency(){
@@ -155,11 +190,11 @@ function sendEmail() {
 
     emailjs.send("service_xmfdfqj", "template_9a35qpi", temp)
         .then(() => {
-            alert("Email Sent");
+            showPopup("Email Sent");
         })
         .catch((err) => {
             console.error(err);
-            alert("Email Not Sent");
+            showPopup("Email Not Sent");
         });
 }
 
@@ -267,19 +302,71 @@ taskCol.forEach(column => {
         const ul = column.querySelector('ul');
 
         if (draggedItem) {
+
+            let newStatus = '';
+
+            if (column.closest('.c1')) {
+                newStatus = 'To-do';
+            }
+            else if (column.closest('.c2')) {
+                newStatus = 'In Progress';
+            }
+            else if (column.closest('.c3')) {
+                newStatus = 'Review';
+            }
+            else if (column.closest('.c4')) {
+                newStatus = 'Completed';
+            }
+            draggedItem.dataset.status = newStatus;
+            const dependencyName = draggedItem.dataset.dependency;
+
+            if (dependencyName) {
+
+                const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+                const parentTask = tasks.find(
+                    task => task.name === dependencyName
+                );
+
+                if (
+                    parentTask &&
+                    statusOrder[newStatus] > statusOrder[parentTask.status]
+                ) {
+                    showPopup(
+                        `${draggedItem.querySelector('h4').textContent} cannot move ahead of ${parentTask.name}`
+                    );
+                    return;
+                }
+            }
+
             ul.appendChild(draggedItem);
         }
+        let newStatus = '';
+
         if (column.closest('.c1')) {
-            draggedItem.dataset.status = 'To-do';
+            newStatus = 'To-do';
         }
         else if (column.closest('.c2')) {
-            draggedItem.dataset.status = 'In Progress';
+            newStatus = 'In Progress';
         }
         else if (column.closest('.c3')) {
-            draggedItem.dataset.status = 'Review';
+            newStatus = 'Review';
         }
         else if (column.closest('.c4')) {
-            draggedItem.dataset.status = 'Completed';
+            newStatus = 'Completed';
+        }
+
+        draggedItem.dataset.status = newStatus;
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        const taskName = draggedItem.querySelector('h4').textContent;
+        const currentTask = tasks.find(
+            task => task.name === taskName
+        );
+
+        if (currentTask) {
+            currentTask.status = newStatus;
+
+            localStorage.setItem('tasks',JSON.stringify(tasks));
         }
     });
 

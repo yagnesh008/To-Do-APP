@@ -12,7 +12,6 @@ body{
 }
 
 
-
 .navbar {
     background: white;
     border-radius: 15px;
@@ -546,3 +545,31 @@ body{
     cursor: pointer;
 }
 
+
+.popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(0, 0, 0);
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 300px;
+}
+
+.popup-content button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
