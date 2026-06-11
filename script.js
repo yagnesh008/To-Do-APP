@@ -65,7 +65,8 @@ newtask = () => {
     }
 
 
-    if (taskName && date && priority && status && description ) {
+    if (Order[status] === 1){
+        if (taskName && date && priority && status && description ) {
         
 
         const task = {
@@ -77,10 +78,20 @@ newtask = () => {
             email: email,
             dependency: dependency
         };
+        
+        function datea() {
+            const now = Date.now();
+            const due = new Date(task.dueDate).getTime();
+
+            return now > due ? " Due date Expired" : "";
+        }
+        
+        
         const listItem = document.createElement('li');
         listItem.draggable = true;
         listItem.innerHTML = `
             <div class="dat1">
+            <h3 class="due">${datea()}</h3>
             <h4>${task.name}</h4>
             <p>${task.description}</p>
             <p>Dependency : ${task.dependency || "None"} </p>
@@ -97,6 +108,10 @@ newtask = () => {
                 </div>
             </div>
                 `;
+            const statusElement = listItem.querySelector('.due');
+            setInterval(() => {
+                statusElement.textContent = datea();
+            },1000);
 
             if(task.priority === "High"){
                 listItem.classList.add("high-priority");
@@ -110,6 +125,9 @@ newtask = () => {
         listItem.dataset.priority = task.priority;
         listItem.dataset.status = task.status;
         listItem.dataset.dependency = task.dependency;
+        listItem.dataset.task = JSON.stringify(task);
+
+        
 
         tasks.push(task);
         localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -120,22 +138,306 @@ newtask = () => {
             const list = document.querySelector('.c1 .task ul');
             list.appendChild(listItem);
         }
-        else if(status === "In Progress"){
-            const list = document.querySelector('.c2 .task ul');
-            list.appendChild(listItem);
-        }
-        else if(status === "Review"){
-            const list = document.querySelector('.c3 .task ul');
-            list.appendChild(listItem);
-        }
-        else if(status === "Completed"){
-            const list = document.querySelector('.c4 .task ul');
-            list.appendChild(listItem);
-        }
-    } else {
+        } else {
             showPopup("Please fill in all fields.");
+        }
     }
-};
+    
+    else if (Order[status] === 2){
+        if (taskName && date && priority && status && description ) {
+        
+            const task = {
+                name: taskName,
+                dueDate: date,
+                priority: priority,
+                status: status,
+                description: description,
+                email: email,
+                dependency: dependency
+            };
+            
+            function datea(){
+                var now = Date.now();
+                const due = new Date(task.dueDate).getTime();
+
+                return now > due ? "Due date Expired" : "";
+            }
+            
+            let seconds = 0;
+            let interval = null;
+            
+            const listItem = document.createElement('li');
+            listItem.draggable = true;
+            listItem.innerHTML = `
+                <div class="dat1">
+                <h3 class="due">${datea()}</h3>
+                <h4>${task.name}</h4>
+                <p>${task.description}</p>
+                <p>Dependency : ${task.dependency || "None"} </p>
+                <div>
+                    <h5>Amount of Time Worked : <span class=tm>00 days 00:00:00</span></h5>
+                    <button class="yes" >start</button>
+                    <button class="no" >End</button>
+                </div>
+
+                <div class="task-footer">
+                    <span class="priority-badge ${task.priority.toLowerCase()}">
+                        ${task.priority}
+                    </span>
+                    
+                    <span class="date">
+                        📅 ${task.dueDate}
+                    </span>
+                    
+                    </div>
+                </div>
+                    `;
+
+                const disp = listItem.querySelector('.tm');
+                const strt = listItem.querySelector('.yes');
+                const end = listItem.querySelector('.no');
+
+                function updateDisplay() {
+                    const days = Math.floor(seconds / 86400);
+                    const hours = Math.floor((seconds % 86400) / 3600);
+                    const minutes = Math.floor((seconds % 3600) / 60);
+                    const secs = seconds % 60;
+
+                    disp.textContent =
+                        `${String(days).padStart(2, '0')} Days ` +
+                        `${String(hours).padStart(2, '0')}:` +
+                        `${String(minutes).padStart(2, '0')}:` +
+                        `${String(secs).padStart(2, '0')}`;
+                }
+                strt.addEventListener('click',function(){
+                    if (interval === null) {
+                        interval = setInterval(() => {
+                            seconds++;
+                            updateDisplay();
+                        }, 1000);
+                    }
+                })
+                end.addEventListener('click',function(){
+                    clearInterval(interval);
+                    interval = null;
+                })
+
+                const statusElement = listItem.querySelector('.due');
+                setInterval(() => {
+                    statusElement.textContent = datea();
+                },1000);
+                
+                
+                if(task.priority === "High"){
+                    listItem.classList.add("high-priority");
+                }
+                else if(task.priority === "Medium"){
+                    listItem.classList.add("medium-priority");
+                }
+                else{
+                    listItem.classList.add("low-priority");
+                }
+            listItem.dataset.priority = task.priority;
+            listItem.dataset.status = task.status;
+            listItem.dataset.dependency = task.dependency;
+            listItem.dataset.task = JSON.stringify(task);
+
+            
+
+            tasks.push(task);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            
+
+            document.querySelector('.fom').reset();
+            if(status === "In Progress"){
+                const list = document.querySelector('.c2 .task ul');
+                list.appendChild(listItem);
+            }
+        }
+        else {
+            showPopup("Please fill in all fields.");
+        }
+    }
+
+    else if (Order[status] === 3){
+        if (taskName && date && priority && status && description ) {
+        
+            const task = {
+                name: taskName,
+                dueDate: date,
+                priority: priority,
+                status: status,
+                description: description,
+                email: email,
+                dependency: dependency
+            };
+            
+            function datea(){
+                var now = Date.now();
+                const due = new Date(task.dueDate).getTime();
+                return now > due ? 'Due date Expired' : '';
+            }
+            
+            let seconds = 0;
+            let interval = null;
+            const listItem = document.createElement('li');
+            listItem.draggable = true;
+            listItem.innerHTML = `
+                <div class="dat1">
+                <h3 class="due">${datea()}</h3>
+                <h4>${task.name}</h4>
+                <p>${task.description}</p>
+                <p>Dependency : ${task.dependency || "None"} </p>
+                <div>
+                    <h5>Amount of Time Worked : <span class=tm>00 days 00:00:00</span></h5>
+                    <button class="yes" >start</button>
+                    <button class="no" >End</button>
+                </div>
+
+                <div class="task-footer">
+                    <span class="priority-badge ${task.priority.toLowerCase()}">
+                        ${task.priority}
+                    </span>
+                    
+                    <span class="date">
+                        📅 ${task.dueDate}
+                    </span>
+                    
+                    </div>
+                </div>
+                    `;
+                const disp = listItem.querySelector('.tm');
+                const strt = listItem.querySelector('.yes');
+                const end = listItem.querySelector('.no');
+
+                function updateDisplay() {
+                    const days = Math.floor(seconds / 86400);
+                    const hours = Math.floor((seconds % 86400) / 3600);
+                    const minutes = Math.floor((seconds % 3600) / 60);
+                    const secs = seconds % 60;
+
+                    disp.textContent =
+                        `${String(days).padStart(2, '0')} Days ` +
+                        `${String(hours).padStart(2, '0')}:` +
+                        `${String(minutes).padStart(2, '0')}:` +
+                        `${String(secs).padStart(2, '0')}`;
+                }
+                strt.addEventListener('click',function(){
+                    if (interval === null) {
+                        interval = setInterval(() => {
+                            seconds++;
+                            updateDisplay();
+                        }, 1000);
+                    }
+                })
+                end.addEventListener('click',function(){
+                    clearInterval(interval);
+                    interval = null;
+                })
+                const statusElement = listItem.querySelector('.due');
+                setInterval(() => {
+                    statusElement.textContent = datea();
+                },1000);
+
+                if(task.priority === "High"){
+                    listItem.classList.add("high-priority");
+                }
+                else if(task.priority === "Medium"){
+                    listItem.classList.add("medium-priority");
+                }
+                else{
+                    listItem.classList.add("low-priority");
+                }
+            listItem.dataset.priority = task.priority;
+            listItem.dataset.status = task.status;
+            listItem.dataset.dependency = task.dependency;
+            listItem.dataset.task = JSON.stringify(task);
+
+            
+
+            tasks.push(task);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            
+
+            document.querySelector('.fom').reset();
+            if(status === "Review"){
+                const list = document.querySelector('.c3 .task ul');
+                list.appendChild(listItem);
+            }
+        }
+        else {
+            showPopup("Please fill in all fields.");
+        }
+    }
+
+    else if(Order[status] === 4){
+        if (taskName && date && priority && status && description ) {
+        
+            const task = {
+                name: taskName,
+                dueDate: date,
+                priority: priority,
+                status: status,
+                description: description,
+                email: email,
+                dependency: dependency
+            };
+            
+
+            
+            const listItem = document.createElement('li');
+            listItem.draggable = true;
+            listItem.innerHTML = `
+                <div class="dat1">
+                <h4>${task.name}</h4>
+                <p>${task.description}</p>
+                <p>Dependency : ${task.dependency || "None"} </p>
+                <p>Remosqw</p>
+
+                <div class="task-footer">
+                    <span class="priority-badge ${task.priority.toLowerCase()}">
+                        ${task.priority}
+                    </span>
+                    
+                    <span class="date">
+                        📅 ${task.dueDate}
+                    </span>
+                    
+                    </div>
+                </div>
+                    `;
+
+                if(task.priority === "High"){
+                    listItem.classList.add("high-priority");
+                }
+                else if(task.priority === "Medium"){
+                    listItem.classList.add("medium-priority");
+                }
+                else{
+                    listItem.classList.add("low-priority");
+                }
+            listItem.dataset.priority = task.priority;
+            listItem.dataset.status = task.status;
+            listItem.dataset.dependency = task.dependency;
+
+            
+
+            tasks.push(task);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            
+
+            document.querySelector('.fom').reset();
+            if(status === "Completed"){
+                const list = document.querySelector('.c4 .task ul');
+                list.appendChild(listItem);
+            }
+        }
+        else {
+            showPopup("Please fill in all fields.");
+        }
+    }
+    }
+
 add.addEventListener('click', function(){
     document.querySelector('.pop-up').style.display = 'block';
     dependency();
