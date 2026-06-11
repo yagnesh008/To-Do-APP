@@ -50,7 +50,7 @@ newtask = () => {
     const email = document.querySelector('.email').value;
     
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    const existingTask = tasks.find(task => task.name.toLowerCase() === taskName.toLowerCase());
+    const existingTask = tasks.some(task => task.name.toLowerCase() === taskName.toLowerCase());
     if (existingTask) {
         showPopup(`Task name :"${taskName}" already exists.`);
         return;
