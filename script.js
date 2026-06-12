@@ -38,6 +38,19 @@ const Order = {
     "Completed": 4
 };
 
+function formatTime(seconds) {
+    const days = Math.floor(seconds / 86400);
+    const hours = Math.floor((seconds % 86400) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    return `${String(days).padStart(2,'0')} Days `
+        + `${String(hours).padStart(2,'0')}:`
+        + `${String(minutes).padStart(2,'0')}:`
+        + `${String(secs).padStart(2,'0')}`;
+}
+
+
 
 
 newtask = () => {
@@ -76,7 +89,8 @@ newtask = () => {
             status: status,
             description: description,
             email: email,
-            dependency: dependency
+            dependency: dependency,
+            workedSeconds: 0
         };
         
         function datea() {
@@ -153,7 +167,8 @@ newtask = () => {
                 status: status,
                 description: description,
                 email: email,
-                dependency: dependency
+                dependency: dependency,
+                workedSeconds: 0
             };
             
             function datea(){
@@ -176,8 +191,8 @@ newtask = () => {
                 <p>Dependency : ${task.dependency || "None"} </p>
                 <div>
                     <h5>Amount of Time Worked : <span class=tm>00 days 00:00:00</span></h5>
-                    <button class="yes" >start</button>
-                    <button class="no" >End</button>
+                    <button class="timer">start</button>
+                    <button class="pause">pause</button>
                 </div>
 
                 <div class="task-footer">
@@ -194,8 +209,8 @@ newtask = () => {
                     `;
 
                 const disp = listItem.querySelector('.tm');
-                const strt = listItem.querySelector('.yes');
-                const end = listItem.querySelector('.no');
+                const strt = listItem.querySelector('.timer');
+                const end = listItem.querySelector('.pause');
 
                 function updateDisplay() {
                     const days = Math.floor(seconds / 86400);
@@ -213,6 +228,21 @@ newtask = () => {
                     if (interval === null) {
                         interval = setInterval(() => {
                             seconds++;
+                            task.workedSeconds = seconds;
+
+                            const allTasks =
+                                JSON.parse(localStorage.getItem('tasks')) || [];
+
+                            const current =
+                                allTasks.find(t => t.name === task.name);
+
+                            if(current){
+                                current.workedSeconds = seconds;
+                                localStorage.setItem(
+                                    'tasks',
+                                    JSON.stringify(allTasks)
+                                );
+                            }
                             updateDisplay();
                         }, 1000);
                     }
@@ -269,7 +299,8 @@ newtask = () => {
                 status: status,
                 description: description,
                 email: email,
-                dependency: dependency
+                dependency: dependency,
+                workedSeconds: 0
             };
             
             function datea(){
@@ -290,8 +321,8 @@ newtask = () => {
                 <p>Dependency : ${task.dependency || "None"} </p>
                 <div>
                     <h5>Amount of Time Worked : <span class=tm>00 days 00:00:00</span></h5>
-                    <button class="yes" >start</button>
-                    <button class="no" >End</button>
+                    <button class="timer">start</button>
+                    <button class="pause">pause</button>
                 </div>
 
                 <div class="task-footer">
@@ -307,8 +338,8 @@ newtask = () => {
                 </div>
                     `;
                 const disp = listItem.querySelector('.tm');
-                const strt = listItem.querySelector('.yes');
-                const end = listItem.querySelector('.no');
+                const strt = listItem.querySelector('.timer');
+                const end = listItem.querySelector('.pause');
 
                 function updateDisplay() {
                     const days = Math.floor(seconds / 86400);
@@ -326,6 +357,21 @@ newtask = () => {
                     if (interval === null) {
                         interval = setInterval(() => {
                             seconds++;
+                            task.workedSeconds = seconds;
+
+                            const allTasks =
+                                JSON.parse(localStorage.getItem('tasks')) || [];
+
+                            const current =
+                                allTasks.find(t => t.name === task.name);
+
+                            if(current){
+                                current.workedSeconds = seconds;
+                                localStorage.setItem(
+                                    'tasks',
+                                    JSON.stringify(allTasks)
+                                );
+                            }
                             updateDisplay();
                         }, 1000);
                     }
@@ -380,7 +426,8 @@ newtask = () => {
                 status: status,
                 description: description,
                 email: email,
-                dependency: dependency
+                dependency: dependency,
+                workedSeconds: 0
             };
             
 
@@ -392,7 +439,7 @@ newtask = () => {
                 <h4>${task.name}</h4>
                 <p>${task.description}</p>
                 <p>Dependency : ${task.dependency || "None"} </p>
-                <p>Remosqw</p>
+                <h5>Total Time Worked :${formatTime(task.workedSeconds || 0)}</h5>
 
                 <div class="task-footer">
                     <span class="priority-badge ${task.priority.toLowerCase()}">
@@ -666,7 +713,90 @@ taskCol.forEach(column => {
 
         if (currentTask) {
             currentTask.status = newStatus;
+            if(newStatus === "In Progress" ||newStatus === "Review"){
+                if(!currentTask.workedSeconds){
+                    currentTask.workedSeconds = 0;
+                }
+                if(!draggedItem.querySelector('.tm')){
 
+                    const footer =
+                        draggedItem.querySelector('.task-footer');
+
+                    footer.insertAdjacentHTML(
+                        'beforebegin',
+                        `
+                        <div>
+                            <h5>
+                                Amount of Time Worked :
+                                <span class="tm">
+                                    00 Days 00:00:00
+                                </span>
+                            </h5>
+
+                            <button class="timer">Start</button>
+                            <button class="pause">pause</button>
+                        </div>
+                        `
+                    );
+                    let seconds = currentTask.workedSeconds;
+                    let interval = null;
+
+                    const disp = draggedItem.querySelector('.tm');
+                    const strt = draggedItem.querySelector('.timer');
+                    const end = draggedItem.querySelector('.pause');
+
+                    function updateDisplay() {
+
+            const days = Math.floor(seconds / 86400);
+            const hours = Math.floor((seconds % 86400) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+
+            disp.textContent =
+                `${String(days).padStart(2,'0')} Days ` +
+                `${String(hours).padStart(2,'0')}:` +
+                `${String(minutes).padStart(2,'0')}:` +
+                `${String(secs).padStart(2,'0')}`;
+                    }
+
+                    updateDisplay();
+
+                    strt.addEventListener('click', () => {
+
+                    if(interval !== null) return;
+
+                    interval = setInterval(() => {
+
+                    seconds++;
+                    currentTask.workedSeconds = seconds;
+                    localStorage.setItem('tasks',JSON.stringify(tasks));updateDisplay();
+                    },1000);
+                    });
+
+                    end.addEventListener('click', () => {
+                    clearInterval(interval);
+                    interval = null;        
+                    })
+                    }
+            }
+            else if(newStatus === "Completed"){
+
+                const timerDiv =draggedItem.querySelector('.timer')?.parentElement;
+                if(timerDiv){
+                    timerDiv.innerHTML = `
+                        <h5>
+                            Total Time Worked :${draggedItem.querySelector('.tm')?.textContent || '00 Days 00:00:00'}
+                        </h5>
+
+                    `;
+                }
+
+                const due =draggedItem.querySelector('.due');
+
+                if(due){
+                    due.remove();
+                }
+            }
             localStorage.setItem('tasks',JSON.stringify(tasks));
         }
     });
